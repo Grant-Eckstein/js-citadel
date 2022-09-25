@@ -7,7 +7,7 @@ const fs = require("fs");
 const https = require("https");
 const { request } = require("http");
 const auth = require('./auth/auth');
-const {isAuthorized} = require("./auth/auth");
+const expressRateLimit = require('express-rate-limit');
 
 // Connect to MongoDB database
 mongo.getDatabase().then(() => {
@@ -21,12 +21,22 @@ mongo.getDatabase().then(() => {
             return res.status(500).send('Unauthorized');
         } else {
             if(auth.isAuthorized(req)) {
-                console.log("Is authed");
                 return next();
             }
         }
         return res.status(500).send('Unauthorized');
-    })
+    });
+
+    // Rate limiter middleware
+    const limiter = expressRateLimit.rateLimit({
+        windowMs: 15 * 60 * 1000, // 15 minutes
+        max: 5, // Limit each IP to 100 requests per `window` (here, per 15 minutes)
+        standardHeaders: false, // Return rate limit info in the `RateLimit-*` headers
+        legacyHeaders: false, // Disable the `X-RateLimit-*` headers
+        message: "Unauthorized",
+        statusCode: 500
+    });
+    app.use(limiter);
 
     // Add routes
     app.use("/api", routes);

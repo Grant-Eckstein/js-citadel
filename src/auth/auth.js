@@ -31,7 +31,6 @@ module.exports.isAuthorized  = function(req) {
         // If key is valid (matching any existing key) then continue
         for(let key in json) {
             if(reqKey.includes(key)) {
-                console.log("auth!")
                 return true;
             }
         }
