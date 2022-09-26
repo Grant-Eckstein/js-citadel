@@ -7,13 +7,14 @@ docker run -d --name mongodb \
     mongo
 */
 const { mongoose } = require("mongoose");
+const MongoHost = "localhost:27017"
 
 // Load in db creds
 const config = require('./mongo.json');
 let database = null;
 
 async function startDatabase() {
-    mongoose.connect(`mongodb://localhost:27017/${config.db}`, {
+    mongoose.connect(`mongodb://${MongoHost}/${config.db}`, {
         auth: { username: config.username, password: config.password },
         authSource: "admin",
     });
