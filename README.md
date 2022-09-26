@@ -1,5 +1,5 @@
 # JS-Citadel
-A secure Express.JS API template. 
+*A secure Express.JS API template*
 ---
 
 ## Installation Process
