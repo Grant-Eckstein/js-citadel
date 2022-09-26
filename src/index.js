@@ -14,6 +14,7 @@ mongo.getDatabase().then(() => {
     // Setup app
     const app = express();
     app.use(helmet());
+    app.disable('x-powered-by');
 
     // Middleware
     app.use((req, res, next) => {
