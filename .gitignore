@@ -105,5 +105,3 @@ dist
 
 **/.DS_Store
 
-# Mongo credentials file
-src/database/mongo.json
